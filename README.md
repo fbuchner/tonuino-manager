@@ -52,6 +52,7 @@ Album files have been copied successfully. You can find the card file at my_card
 ```
 
 Die erstellte CSV-Datei gibt einen Überblick über die kopierten Alben und bereitet das Beschreiben der RFID-Karten vor. 
+Wenn bei einer Karte kein Modus hinterlegt wurde (*mode* leer), wird automatisch der Albummodus angenommen (*mode* 2).
 
 |artist|album|mode|folder_number|number_of_files|rfid_content|
 |---|---|---|---|---|---|

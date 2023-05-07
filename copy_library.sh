@@ -19,10 +19,6 @@ fi
 
 # Write the header to the CSV file
 echo "artist;album;mode;folder_number;number_of_files;rfid_content" > "$csv_file_new"
-#13 37 B3 47 02 $folder_number $mode 00 00 00 00 00 00 00 00 00
-#mode 2 = Album (kompletter Ordner)
-#mode 3 = Party (zufällig)
-#mode 5 = Hörbuch (Fortschritt speichern)
 
 # Read the CSV file and process each line
 while IFS=';' read -r artist album path card_number mode; do
@@ -32,7 +28,6 @@ while IFS=';' read -r artist album path card_number mode; do
         folder_name=$(printf "%02d" "$card_number")
         folder_path="$target_folder/$folder_name"
         mkdir -p "$folder_path"
-
 
         # Copy and rename MP3 files in alphabetical order
         count=1
@@ -44,6 +39,7 @@ while IFS=';' read -r artist album path card_number mode; do
         
         folder_hex=$(printf "%02x" "$card_number")
         if [[ ! "$mode" =~ ^[0-9]+$ ]]; then
+            #if node mode has been provided use album mode as default
             mode=2
         fi
         mode_hex=$(printf "%02x" "$mode")
@@ -51,6 +47,6 @@ while IFS=';' read -r artist album path card_number mode; do
 
         echo "$artist;$album;$mode;$card_number;$count;$rfid_content" >> "$csv_file_new"
     fi
-
-    echo "Album files have been copied successfully. You can find the card file at $csv_file_new"
 done < "$csv_file"
+
+echo "Album files have been copied successfully. You can find the card file at $csv_file_new"
